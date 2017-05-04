@@ -77,7 +77,7 @@ void draw_TimeResolution_H4_Abs()
     TLine *line = new TLine(0,20,6,20);
     line->SetLineColor(kBlack);
     //line->SetLineStyle(4);
-    line->SetLineWidth(2);
+    //line->SetLineWidth(2);
     
     TCanvas* c1 = new TCanvas();
     FPCanvasStyle(c1);
@@ -85,7 +85,7 @@ void draw_TimeResolution_H4_Abs()
     g1->Draw("PL,same");
     legend->Draw("same");
     line->Draw("same");
-    TLatex latex2(0.65, 0.94,"#bf{#bf{Electrons at 20 GeV}}");;
+    TLatex latex2(0.67, 0.94,"#bf{#bf{Electrons at 20 GeV}}");;
     latex2.SetTextSize(0.04);
     latex2.SetNDC(kTRUE);
     latex2.Draw(); 

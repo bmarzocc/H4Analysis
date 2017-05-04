@@ -179,6 +179,7 @@ void draw_TimeResolution_vs_amplitude()
 
     char LatexText2[1000];
     sprintf(LatexText2,"b = %.0f #pm %.0f ps",g_res->GetParameter(1),g_res->GetParError(1)); 
+    //sprintf(LatexText2,"b = 19 #pm 1 ps",g_res->GetParameter(1),g_res->GetParError(1)); 
 
     TLatex *latexLabel3 = new TLatex();
     latexLabel3->SetTextSize(0.04);

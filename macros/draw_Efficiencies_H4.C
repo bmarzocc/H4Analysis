@@ -130,7 +130,7 @@ void draw_Efficiencies_H4() {
   effMib3Corr->Draw("Psame");
   effZS2PMTCorr->Draw("Psame");
   leg->Draw("same");
-  TLatex latex2(0.65, 0.94,"#bf{#bf{Electrons at 50 GeV}}");;
+  TLatex latex2(0.67, 0.94,"#bf{#bf{Electrons at 50 GeV}}");;
   latex2.SetTextSize(0.04);
   latex2.SetNDC(kTRUE);
   latex2.Draw(); 

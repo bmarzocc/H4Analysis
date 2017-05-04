@@ -16,9 +16,6 @@
 #include<string>
 #include<fstream>
 
-void ReverseXAxis (TGraph *g);
-void ReverseXGraph (TGraph *g);
-
 void draw_TimeResolution_vs_fraction()
 {
     gStyle->SetOptTitle(0); 
@@ -29,9 +26,10 @@ void draw_TimeResolution_vs_fraction()
     gStyle->SetErrorX(0);
 
     
-    TFile* inputFile = TFile::Open("Final_TimeResolution_vs_eff_BINP3_CFD50_thres20_onlyWrtMiB2.root");
+    //TFile* inputFile = TFile::Open("Final_TimeResolution_vs_eff_BINP3_CFD50_thres20_onlyWrtMiB2.root");
      
-    TGraphAsymmErrors* TimeResolution_vs_frac_wrtMiB2 = (TGraphAsymmErrors*)inputFile->Get("TimeResolution_vs_eff_wrtMiB2_BINP3_CFD50_thres20_onlyWrtMiB2");   
+    //TGraphAsymmErrors* TimeResolution_vs_frac_wrtMiB2 = (TGraphAsymmErrors*)inputFile->Get("TimeResolution_vs_eff_wrtMiB2_BINP3_CFD50_thres20_onlyWrtMiB2");   
+    TGraphAsymmErrors* TimeResolution_vs_frac_wrtMiB2 = new TGraphAsymmErrors();   
 
     TimeResolution_vs_frac_wrtMiB2->SetMarkerStyle(20);
     TimeResolution_vs_frac_wrtMiB2->SetMarkerSize(0.9);
@@ -39,7 +37,7 @@ void draw_TimeResolution_vs_fraction()
     TimeResolution_vs_frac_wrtMiB2->SetLineColor(kBlack);
     TimeResolution_vs_frac_wrtMiB2->SetLineWidth(1);
 
-    for(int ii = 0; ii < TimeResolution_vs_frac_wrtMiB2->GetN();ii++)
+    /*for(int ii = 0; ii < TimeResolution_vs_frac_wrtMiB2->GetN();ii++)
     {
         double x,y;
         double x_errorUp,y_errorUp, x_errorDown,y_errorDown;
@@ -54,7 +52,7 @@ void draw_TimeResolution_vs_fraction()
         TimeResolution_vs_frac_wrtMiB2->SetPointEXhigh(ii,x_errorUp); 
         TimeResolution_vs_frac_wrtMiB2->SetPointEYlow(ii,y_errorDown); 
         TimeResolution_vs_frac_wrtMiB2->SetPointEYhigh(ii,y_errorUp); 
-    }
+    }*/
 
     bool useBestResolution = true;
     bool isF1_open = false;
@@ -71,10 +69,14 @@ void draw_TimeResolution_vs_fraction()
              break;
           float res, resError;
           infile >> res >> resError;
-          std::cout << res << " " << resError << " " << raw << std::endl;
 
           double x,y;
           TimeResolution_vs_frac_wrtMiB2->GetPoint(raw,x,y);
+          x = 100. - raw*10.; 
+          std::cout << x << " " << res << " " << resError << std::endl;
+
+          if(x == 0.) continue;
+
           TimeResolution_vs_frac_wrtMiB2->SetPoint(raw,x,res);
           TimeResolution_vs_frac_wrtMiB2->SetPointEYlow(raw,resError); 
           TimeResolution_vs_frac_wrtMiB2->SetPointEYhigh(raw,resError); 
@@ -115,40 +117,4 @@ void draw_TimeResolution_vs_fraction()
     latex2.Draw(); 
     c1 -> Print("BINP3_Resolution_vs_fraction_CFD50_wrtMiB2.png","png");
     c1 -> Print("BINP3_Resolution_vs_fraction_CFD50_wrtMiB2.pdf","pdf");  
-}
-
-void ReverseXAxis (TGraph *g)
-{
-   // Remove the current axis
-   g->GetXaxis()->SetLabelOffset(999);
-   g->GetXaxis()->SetTickLength(0);
-   // Redraw the new axis
-   gPad->Update();
-   TGaxis *newaxis = new TGaxis(gPad->GetUxmax(),
-                                gPad->GetUymin(),
-                                gPad->GetUxmin(),      
-                                gPad->GetUymin(),
-                                g->GetXaxis()->GetXmin(),
-                                g->GetXaxis()->GetXmax(),
-                                510,"-SDH");  
-   newaxis->SetLabelOffset(-0.03);    
-   newaxis->Draw();
-}
-
-void ReverseXGraph (TGraph *g)
-{
-   // Create a new graph
-   Int_t n = g->GetN();
-   Double_t *x = g->GetX();
-   Double_t *y = g->GetY();
-   Double_t xr[100];
-   Double_t dx = g->GetXaxis()->GetXmin()+g->GetXaxis()->GetXmax();
-   for (Int_t i=0; i<n; i++) {
-      xr[i] = -x[i]+dx;
-   }
-   gr = new TGraph(n,xr,y);  
-   gr->SetMarkerStyle(20);
-   gr->SetLineColor(kRed);
-   gr->SetMarkerColor(kRed);
-   gr->Draw("PL");
 }

@@ -15,12 +15,34 @@ Double_t fitfunc(Double_t *v, Double_t *par) {
   if (par[2] != 0) arg = v[0]/par[2];
   Double_t fitval;
   if (arg>1)
-    fitval = par[0]*(1.- (1./(par[1]*log(arg)+1))) + par[3]*(1-par[0]*(1.- (1./(par[1]*log(arg)+1))));
+    fitval = (par[0]*(1.- (1./(par[1]*log(arg)+1)))) + par[3]*(1-(par[0]*(1.- (1./(par[1]*log(arg)+1)))));
   else
     fitval = 0.;
   
   return fitval;
 }
+
+Double_t fitfunc2(Double_t *v, Double_t *par) {
+  Double_t arg = 0;
+  if (par[2] != 0) arg = v[0]/par[2];
+  Double_t fitval;
+  if (arg>1)
+    fitval = par[0] + (par[1]*(1.- (1./(par[3]*log(arg)+1))));
+  else
+    fitval = 0.;
+  
+  return fitval;
+}
+
+Double_t fitfunc3(Double_t *v, Double_t *par) {
+
+  Double_t fitval;
+  fitval = par[1]/(1. + par[2]*exp(par[3]*(v[0]+par[4]))) + par[0];
+ 
+  return fitval;
+}
+
+
 
 void draw_Efficiencies() {
 
@@ -39,26 +61,6 @@ void draw_Efficiencies() {
 
   TGraphAsymmErrors *effZS2Corr  = (TGraphAsymmErrors*)inputH4->Get("effZS2Corr");
   TGraphAsymmErrors *effMib3Corr = (TGraphAsymmErrors*)inputH4->Get("effMib3Corr");
-
-  TF1* f1 = new TF1("f1",fitfunc,0.,2700.,4);
-  f1->SetParameters(1.,1.,300.,0.);  
-  f1->SetParLimits(0,0.,1.);
-  f1->SetParLimits(1,0.,1.);
-  f1->SetParLimits(2,0.,1000.);
-  f1->SetParLimits(3,0.,1.);
-
-  //binp3->Fit("f1","B");
-
-  TF1* f2 = new TF1("f2",fitfunc,0.,2700.,4);
-  f2->SetParameters(0.5,0.5,1400.,0.5,0.5);
-  f2->SetParLimits(0,0.,1.);
-  f2->SetParLimits(1,0.,1.);
-  f2->SetParLimits(2,1300.,1500.);
-  f2->SetParLimits(3,0.,1.);
-  f2->SetParLimits(4,0.,1.);
-  effMib25Corr_1200->Fit("f2","B");
-
-  TF1* f3 = new TF1("f3",fitfunc,0.,2700.,4);
 
   // cosmetics
   binp1->SetMarkerStyle(20);
@@ -112,6 +114,54 @@ void draw_Efficiencies() {
   effMib3Corr->SetLineStyle(7);
   effMib3Corr->SetLineWidth(2);
 
+  TF1* f1 = new TF1("f1",fitfunc,0.,2700.,4);
+  f1->SetParameters(1.,1.,1300.,0.);  
+  f1->SetParLimits(0,0.,1.);
+  f1->SetParLimits(1,0.,1.);
+  f1->SetParLimits(2,1100.,1500.);
+  f1->SetParLimits(3,0.,1.);
+  //binp1->Fit("f1","B");
+
+  /*TF1* f2 = new TF1("f2",fitfunc2,0.,2700.,4);
+  f2->SetParameters(0.5,0.5,500.,0.5,0.5);
+  f2->SetParLimits(0,0.,1.);
+  f2->SetParLimits(1,0.,1.);
+  f2->SetParLimits(2,300.,700.);
+  f2->SetParLimits(3,0.,1.);
+  f2->SetParLimits(4,0.,1.);*/
+  TF1* f2 = new TF1("f2",fitfunc3,0.,2700.,5);
+  f2->SetParameters(1.,1.,1.,1.,1.); 
+  f2->SetParLimits(0,0.,1.); 
+  //f2->SetParLimits(1,-999999.,0.); 
+  f2->SetParLimits(4,-2500.,-1000.); 
+  //binp3->Fit("f2","B");
+  //effMib25Corr_1200->Fit("f2","B");
+
+  TF1* f3 = new TF1("f3",fitfunc,0.,2700.,4);
+  f3->SetParameters(1.,1.,300.,0.);  
+  f3->SetParLimits(0,0.,1.);
+  f3->SetParLimits(1,0.,1.);
+  f3->SetParLimits(2,0.,1000.);
+  f3->SetParLimits(3,0.,1.);
+  //binp4->Fit("f3","B");
+
+  TF1* f4 = new TF1("f4",fitfunc,0.,2700.,4);
+  f4->SetParameters(1.,1.,300.,0.);  
+  f4->SetParLimits(0,0.,1.);
+  f4->SetParLimits(1,0.,1.);
+  f4->SetParLimits(2,0.,1000.);
+  f4->SetParLimits(3,0.,1.);
+  //effMib25Corr->Fit("f4","B");
+
+  TF1* f5 = new TF1("f5",fitfunc2,0.,2700.,4);
+  f5->SetParameters(0.5,0.5,1400.,0.5,0.5);
+  f5->SetParLimits(0,0.,1.);
+  f5->SetParLimits(1,0.,1.);
+  f5->SetParLimits(2,1300.,1500.);
+  f5->SetParLimits(3,0.,1.);
+  f5->SetParLimits(4,0.,1.);
+  //effMib25Corr_1200->Fit("f5","B");
+
   // plotting
   setStyle();
 
@@ -119,7 +169,7 @@ void draw_Efficiencies() {
   TH2F* H2 = new TH2F("H2","",2700,0.,2700.,100,0.,1.4);
   H2->GetXaxis()->SetTitle("MCP-stack bias (V)");
   H2->GetYaxis()->SetTitle("Efficiency");
-  TLine *line = new TLine(0,1,3200,1);
+  TLine *line = new TLine(0,1,2700,1);
 
   TLegend *leg;
   leg = new TLegend(0.18,0.70,0.38,0.90);
@@ -171,8 +221,8 @@ void draw_Efficiencies() {
   latex2.SetTextSize(0.04);
   latex2.SetNDC(kTRUE);
   latex2.Draw(); 
-  c1->SaveAs("summaryEff_v3.png");
-  c1->SaveAs("summaryEff_v3.pdf");
+  c1->SaveAs("summaryEff.png");
+  c1->SaveAs("summaryEff.pdf");
 
 
 }
