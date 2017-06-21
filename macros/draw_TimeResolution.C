@@ -41,7 +41,9 @@ void draw_TimeResolution()
 
     TH2F* H2 = new TH2F("H2","",200,-0.5,0.5,700,0.,700.);
     H2->GetXaxis()->SetTitle("#Deltat (ns)");
-    H2->GetYaxis()->SetTitle("events/10 ps");
+    //H2->GetYaxis()->SetTitle("events/10 ps");
+    H2->GetYaxis()->SetTitle("events/50 ps");
+    H2->GetXaxis()->SetNdivisions(505);
 
     TLegend* legend = new TLegend(0.63, 0.75, 0.70, 0.82);
     legend -> SetFillColor(kWhite);
@@ -72,7 +74,8 @@ void draw_TimeResolution()
     time_wrtMiB2->Draw("H,same");
     //g_res->Draw("same");
     //legend ->Draw("same");
-    TLatex latex2(0.65, 0.94,"#bf{#bf{Electrons at 491 MeV}}");;
+    c1->RedrawAxis("sameaxis");
+    TLatex latex2(0.69, 0.94,"#bf{#bf{491 MeV electrons}}");
     latex2.SetTextSize(0.04);
     latex2.SetNDC(kTRUE);
     latex2.Draw(); 

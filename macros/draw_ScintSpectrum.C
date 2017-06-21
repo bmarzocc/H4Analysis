@@ -62,7 +62,7 @@ void draw_ScintSpectrum()
     legend -> SetTextSize(0.04);
     
     legend -> AddEntry(h_amp,"Scintillator","F");
-    legend -> AddEntry(h_amp_sel,"Selected range","F");
+    legend -> AddEntry(h_amp_sel,"Single electron events","F");
     
     TCanvas* c1 = new TCanvas();
     FPCanvasStyle(c1);
@@ -72,7 +72,7 @@ void draw_ScintSpectrum()
     h_amp_sel->Draw("HF,same");
     c1->RedrawAxis("sameaxis");
     legend->Draw("same");
-    TLatex latex2(0.65, 0.94,"#bf{#bf{Electrons at 491 MeV}}");;
+    TLatex latex2(0.69, 0.94,"#bf{#bf{491 MeV electrons}}");
     latex2.SetTextSize(0.04);
     latex2.SetNDC(kTRUE);
     latex2.Draw(); 

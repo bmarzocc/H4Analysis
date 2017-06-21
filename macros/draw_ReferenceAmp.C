@@ -45,7 +45,7 @@ void draw_ReferenceAmp()
 
     setStyle();  
 
-    TH2F* H2 = new TH2F("H2","",130,0.,1300.,100,0.00001,0.2);
+    TH2F* H2 = new TH2F("H2","",130,0.,1300.,100,0.00001,1.);
     H2->GetXaxis()->SetTitle("amplitude (ADC counts)");
     H2->GetYaxis()->SetTitle("a.u.");
 
@@ -71,7 +71,7 @@ void draw_ReferenceAmp()
     h_amp_sel->Draw("H,same");
     c1->RedrawAxis("sameaxis");
     legend->Draw("same");
-    TLatex latex2(0.65, 0.94,"#bf{#bf{Electrons at 491 MeV}}");;
+    TLatex latex2(0.69, 0.94,"#bf{#bf{491 MeV electrons}}");
     latex2.SetTextSize(0.04);
     latex2.SetNDC(kTRUE);
     latex2.Draw(); 

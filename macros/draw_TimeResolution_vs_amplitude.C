@@ -48,8 +48,8 @@ void draw_TimeResolution_vs_amplitude()
         y_errorDown = TimeResolution_vs_amp_wrtMiB2->GetErrorYlow(ii);
         y_errorUp = TimeResolution_vs_amp_wrtMiB2->GetErrorYhigh(ii); 
 
-        //std::cout << ii << " " << x-x_errorDown << " " << x+x_errorUp << " " << y << "+" << y_errorUp << "-" << y_errorDown << std::endl; 
-
+        //std::cout << ii << " " << y << " " << sqrt(y*y+23*23-15*15) << std::endl; 
+       
         TimeResolution_vs_amp_wrtMiB2->SetPoint(ii,x/3.4,y);
         TimeResolution_vs_amp_wrtMiB2->SetPointEXlow(ii,x_errorDown/3.4); 
         TimeResolution_vs_amp_wrtMiB2->SetPointEXhigh(ii,x_errorUp/3.4); 
@@ -61,7 +61,7 @@ void draw_TimeResolution_vs_amplitude()
     bool isF1_open = false;
     if(useBestResolution){
        ifstream infile;    
-       infile.open("resolution_vs_amp_BINP3.txt");    
+       infile.open("resolution_vs_amp_BINP3_v2.txt");    
        if(!infile.fail())
        {
         int raw = 0;
@@ -73,9 +73,10 @@ void draw_TimeResolution_vs_amplitude()
           float res, resError;
           infile >> res >> resError;
           //std::cout << res << " " << resError << " " << raw << std::endl;
-
+          
           double x,y;
           TimeResolution_vs_amp_wrtMiB2->GetPoint(raw,x,y);
+          //res = sqrt(res*res+23*23-15*15);
           TimeResolution_vs_amp_wrtMiB2->SetPoint(raw,x,res);
           TimeResolution_vs_amp_wrtMiB2->SetPointEYlow(raw,resError); 
           TimeResolution_vs_amp_wrtMiB2->SetPointEYhigh(raw,resError); 
@@ -189,7 +190,7 @@ void draw_TimeResolution_vs_amplitude()
     
     char LatexText3[1000];
     //sprintf(LatexText3,"a = %.0f #pm %.0f ADC x ps",g_res->GetParameter(0),g_res->GetParError(0)); 
-    sprintf(LatexText3,"a = 0.9 #pm 0.3 ADC x ns",g_res->GetParameter(0),g_res->GetParError(0)); 
+    sprintf(LatexText3,"a = 1.1 #pm 0.3 ADC x ns",g_res->GetParameter(0),g_res->GetParError(0)); 
 
     TCanvas* c1 = new TCanvas();
     FPCanvasStyle(c1);
@@ -204,7 +205,7 @@ void draw_TimeResolution_vs_amplitude()
     //g_res->Draw("same");
     c1->Update();
     legend->Draw("same");
-    TLatex latex2(0.65, 0.94,"#bf{#bf{Electrons at 491 MeV}}");;
+    TLatex latex2(0.69, 0.94,"#bf{#bf{491 MeV electrons}}");
     latex2.SetTextSize(0.04);
     latex2.SetNDC(kTRUE);
     latex2.Draw(); 

@@ -61,7 +61,7 @@ void draw_TimeResolution_H4_Abs()
     setStyle(); 
 
     TH2F* H2 = new TH2F("H2","",6,0.,6.,100,10.,70.);
-    H2->GetXaxis()->SetTitle("Radiation length (X_{0})");
+    H2->GetXaxis()->SetTitle("Radiation lengths (X_{0})");
     H2->GetYaxis()->SetTitle("#sigma_{t} (ps)");
 
     TLegend* legend = new TLegend(0.62, 0.72, 0.79, 0.80);
@@ -85,7 +85,7 @@ void draw_TimeResolution_H4_Abs()
     g1->Draw("PL,same");
     legend->Draw("same");
     line->Draw("same");
-    TLatex latex2(0.67, 0.94,"#bf{#bf{Electrons at 20 GeV}}");;
+    TLatex latex2(0.705, 0.94,"#bf{#bf{20 GeV electrons}}");;
     latex2.SetTextSize(0.04);
     latex2.SetNDC(kTRUE);
     latex2.Draw(); 

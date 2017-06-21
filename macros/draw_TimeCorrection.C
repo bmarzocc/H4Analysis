@@ -81,7 +81,7 @@ void draw_TimeCorrection()
     fit_corr_wrtMiB2->Draw("L,same");
     fit_corr_wrtRm2->Draw("L,same");
     legend->Draw("same");
-    TLatex latex2(0.65, 0.94,"#bf{#bf{Electrons at 491 MeV}}");;
+    TLatex latex2(0.69, 0.94,"#bf{#bf{491 MeV electrons}}");;
     latex2.SetTextSize(0.04);
     latex2.SetNDC(kTRUE);
     latex2.Draw();
